@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { createUser } from '../services/userAPI';
 import Loading from './Loading';
 
@@ -12,6 +12,7 @@ class Login extends React.Component {
     this.state = {
       name: '',
       isLoading: false,
+      redirect: false,
     };
   }
 
@@ -25,22 +26,23 @@ class Login extends React.Component {
       const { name } = this.state;
       this.setState({
         isLoading: true,
+        redirect: false,
       });
-
-      await createUser(name);
+      await createUser({ name });
       this.setState({
         isLoading: false,
+        redirect: true,
       });
-      // { <Redirect to="/search" /> }
     }
 
     render() {
-      const { name, isLoading } = this.state;
+      const { name, isLoading, redirect } = this.state;
+      if (redirect) return <Redirect to="/search" />;
       return (
         isLoading
           ? <Loading />
           : (
-            <div data-testid="page-login" onSubmit={ this.handleClick }>
+            <div data-testid="page-login">
               <input
                 type="text"
                 name="name"
@@ -50,7 +52,8 @@ class Login extends React.Component {
                 placeholder="Insira seu nome"
               />
               <button
-                type="submit"
+                type="button"
+                onClick={ this.handleClick }
                 disabled={ name.length < MIN }
                 data-testid="login-submit-button"
               >
