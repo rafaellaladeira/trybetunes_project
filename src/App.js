@@ -19,9 +19,7 @@ class App extends React.Component {
           <Route exact path="/search">
             <Search />
           </Route>
-          <Route exact path="/album/:id">
-            <Album />
-          </Route>
+          <Route exact path="/album/:id" component={ Album } />
           <Route exact path="/favorites">
             <Favorites />
           </Route>

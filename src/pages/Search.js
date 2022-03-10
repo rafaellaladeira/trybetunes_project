@@ -83,6 +83,7 @@ class Search extends React.Component {
                     <Link
                       to={ `/album/${album.collectionId}` }
                       key={ album.collectionId }
+                      id={ album.collectionId }
                       data-testid={ `link-to-album-${album.collectionId}` }
                     >
                       <img
