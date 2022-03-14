@@ -43,7 +43,7 @@ class Album extends React.Component {
      this.setState({
        arrayOfFavorites: response,
      });
-}
+   }
 
    render() {
      const { artistName, collectionName, arrayOfMusic, arrayOfFavorites } = this.state;
