@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   constructor() {
@@ -12,11 +13,13 @@ class Album extends React.Component {
       artistName: '',
       collectionName: '',
       arrayOfMusic: [],
+      arrayOfFavorites: [],
     };
   }
 
   componentDidMount() {
     this.fetchMusic();
+    this.handleFavorites();
   }
 
    fetchMusic = async () => {
@@ -34,8 +37,16 @@ class Album extends React.Component {
      });
    }
 
+   handleFavorites = async () => {
+     const response = await getFavoriteSongs();
+     console.log(response);
+     this.setState({
+       arrayOfFavorites: response,
+     });
+}
+
    render() {
-     const { artistName, collectionName, arrayOfMusic } = this.state;
+     const { artistName, collectionName, arrayOfMusic, arrayOfFavorites } = this.state;
      return (
        <div>
          <Header />
@@ -51,6 +62,7 @@ class Album extends React.Component {
                  trackId={ music.trackId }
                  musicName={ music.trackName }
                  previewMusic={ music.previewUrl }
+                 arrayOfFavorites={ arrayOfFavorites }
                />
              ))
            }

@@ -13,22 +13,45 @@ class MusicCard extends React.Component {
     };
   }
 
-  fetchFavorite = async () => {
+  componentDidMount() {
+    const { arrayOfFavorites } = this.props;
+    this.handleFavorite();
+    console.log(arrayOfFavorites);
+  }
+
+  handleFavorite = () => {
+    const { trackId, arrayOfFavorites } = this.props;
+    const { checked } = this.state;
+    console.log(arrayOfFavorites);
+    console.log(trackId);
+
+    const teste = arrayOfFavorites.some((favorites) => favorites.trackId === trackId);
+    console.log(teste);
+    if (teste) {
+      this.setState({
+        checked: true,
+      });
+    }
+    console.log(checked);
+  }
+
+  fetchFavorite = async ({ target }) => {
     const { trackId } = this.props;
+    const { checked } = target;
     this.setState({
       isLoading: true,
-      checked: true,
     });
     await addSong({ trackId });
     this.setState({
       isLoading: false,
-      checked: true,
+      checked,
     });
   }
 
   render() {
     const { isLoading, checked } = this.state;
-    const { trackId, musicName, previewMusic } = this.props;
+    const { trackId, musicName, previewMusic, arrayOfFavorites } = this.props;
+    console.log(arrayOfFavorites);
     return (
       isLoading
         ? <Loading />
@@ -60,6 +83,7 @@ class MusicCard extends React.Component {
 export default MusicCard;
 
 MusicCard.propTypes = {
+  arrayOfFavorites: PropTypes.arrayOf.isRequired,
   trackId: PropTypes.number.isRequired,
   musicName: PropTypes.string.isRequired,
   previewMusic: PropTypes.string.isRequired,
