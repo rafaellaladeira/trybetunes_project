@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from '../pages/Loading';
 
 class MusicCard extends React.Component {
@@ -10,29 +10,12 @@ class MusicCard extends React.Component {
     this.state = {
       isLoading: false,
       checked: false,
+      arrayOfFavorites: [],
     };
   }
 
   componentDidMount() {
-    const { arrayOfFavorites } = this.props;
-    this.handleFavorite();
-    console.log(arrayOfFavorites);
-  }
-
-  handleFavorite = () => {
-    const { trackId, arrayOfFavorites } = this.props;
-    const { checked } = this.state;
-    console.log(arrayOfFavorites);
-    console.log(trackId);
-
-    const teste = arrayOfFavorites.some((favorites) => favorites.trackId === trackId);
-    console.log(teste);
-    if (teste) {
-      this.setState({
-        checked: true,
-      });
-    }
-    console.log(checked);
+    this.handleFavorites();
   }
 
   fetchFavorite = async ({ target }) => {
@@ -48,10 +31,28 @@ class MusicCard extends React.Component {
     });
   }
 
+  handleFavorites = async () => {
+    const { trackId } = this.props;
+    const { arrayOfFavorites } = this.state;
+    const response = await getFavoriteSongs();
+    /* this.setState({
+      arrayOfFavorites: response,
+    }); */
+
+    const teste = response
+      .some((favorites) => favorites.trackId === trackId);
+      if (teste) {
+      this.setState({
+        checked: true,
+      });
+    
+    console.log(teste);
+  }
+}
+
   render() {
     const { isLoading, checked } = this.state;
-    const { trackId, musicName, previewMusic, arrayOfFavorites } = this.props;
-    console.log(arrayOfFavorites);
+    const { trackId, musicName, previewMusic } = this.props;
     return (
       isLoading
         ? <Loading />
@@ -83,7 +84,6 @@ class MusicCard extends React.Component {
 export default MusicCard;
 
 MusicCard.propTypes = {
-  arrayOfFavorites: PropTypes.arrayOf.isRequired,
   trackId: PropTypes.number.isRequired,
   musicName: PropTypes.string.isRequired,
   previewMusic: PropTypes.string.isRequired,
