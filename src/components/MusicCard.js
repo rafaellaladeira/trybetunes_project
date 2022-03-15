@@ -10,7 +10,6 @@ class MusicCard extends React.Component {
     this.state = {
       isLoading: false,
       checked: false,
-      arrayOfFavorites: [],
     };
   }
 
@@ -33,22 +32,15 @@ class MusicCard extends React.Component {
 
   handleFavorites = async () => {
     const { trackId } = this.props;
-    const { arrayOfFavorites } = this.state;
     const response = await getFavoriteSongs();
-    /* this.setState({
-      arrayOfFavorites: response,
-    }); */
-
     const teste = response
       .some((favorites) => favorites.trackId === trackId);
-      if (teste) {
+    if (teste) {
       this.setState({
         checked: true,
       });
-    
-    console.log(teste);
+    }
   }
-}
 
   render() {
     const { isLoading, checked } = this.state;
