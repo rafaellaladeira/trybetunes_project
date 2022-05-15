@@ -48,8 +48,9 @@ class Search extends React.Component {
           isLoading
             ? <Loading />
             : (
-              <div>
+              <div className="search">
                 <input
+                  className="searchBar"
                   type="text"
                   name="name"
                   value={ name }
@@ -58,6 +59,7 @@ class Search extends React.Component {
                   placeholder="Banda ou artista"
                 />
                 <button
+                  className="searchBtn"
                   type="button"
                   onClick={ this.handleClick }
                   data-testid="search-artist-button"
@@ -70,9 +72,9 @@ class Search extends React.Component {
         }
         {
           albuns.length === 0
-            ? (<p>Nenhum álbum foi encontrado</p>)
+            ? (<p className="result">Nenhum álbum foi encontrado</p>)
             : (
-              <div>
+              <div className="result">
                 <p>
                   Resultado de álbuns de:
                   {' '}
@@ -81,17 +83,19 @@ class Search extends React.Component {
                 <ul>
                   { albuns.map((album) => (
                     <Link
+                      className="album"
                       to={ `/album/${album.collectionId}` }
                       key={ album.collectionId }
                       id={ album.collectionId }
                       data-testid={ `link-to-album-${album.collectionId}` }
                     >
                       <img
+                        className="resultImg"
                         src={ album.artworkUrl100 }
                         alt={ album.artistName }
                       />
-                      <p>{ album.collectionName }</p>
-                      <p>{album.artistName}</p>
+                      <p className="resultName">{ album.collectionName }</p>
+                      <p className="resultName">{album.artistName}</p>
                     </Link>
                   ))}
                 </ul>

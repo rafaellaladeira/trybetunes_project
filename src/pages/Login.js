@@ -42,8 +42,17 @@ class Login extends React.Component {
         isLoading
           ? <Loading />
           : (
-            <div data-testid="page-login">
+            <div
+              data-testid="page-login"
+              className="login"
+            >
+              <p
+                className="trybetunes"
+              >
+                trybetunes
+              </p>
               <input
+                className="inputLogin"
                 type="text"
                 name="name"
                 value={ name }
@@ -52,6 +61,7 @@ class Login extends React.Component {
                 placeholder="Insira seu nome"
               />
               <button
+                className="btnLogin"
                 type="button"
                 onClick={ this.handleClick }
                 disabled={ name.length < MIN }
